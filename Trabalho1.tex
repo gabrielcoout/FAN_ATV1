@@ -1,10 +1,16 @@
 \documentclass{article}
+\usepackage[top=3cm, bottom=3cm, left=3.5cm, right=3.5cm]{geometry}
 \usepackage{amsmath}
 \usepackage[portuguese]{babel}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{csquotes}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{ref.bib}
+\usepackage{hyperref}
+
 
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
@@ -25,43 +31,45 @@
 
 \lstset{style=mystyle}
 
-\title{SME0206 -- Fundamentos de An\'{a}lise Num\'{e}rica - Trabalho Pr\'{a}tico \#1}
+\title{\textbf{SME0206 -- Fundamentos de An\'{a}lise Num\'{e}rica - Trabalho Pr\'{a}tico \#1}}
 \author{Gabriel Coutinho Chaves \\ 15111760 \and Theo Urbano Gaudencio de Sene \\ 12558717 \and Ian De Holanda \\ 13835412}
 \date{\today}
 
 \begin{document}
+
 
 \maketitle
 
 % -----------------------------------------------------------------------------
 
 \section{Introdu\c{c}\~{a}o}
-Este relatorio aborda o tema de m\'{e}todos num\'{e}ricos para encontrar ra\'{i}zes de fun\c{c}\~{o}es, com foco espec\'{i}fico na fun\c{c}\~{a}o polinomial:
+Este relatorio aborda o tema de m\'{e}todos num\'{e}ricos para encontrar ra\'{i}zes de fun\c{c}\~{o}es, com foco espec\'{i}fico na fun\c{c}\~{a}o polinomial do quinto grau
 
 
 \begin{equation}
     f(x) = 63x^5 - 381x^4 + 496x^3 + 204x^2 - 544x + 192
+\label{eq:1}
+\vspace*{4pt}
 \end{equation}
-
+nos intervalos [0,1] e [1,2].\\
 O objetivo principal \'{e} analisar e comparar diferentes m\'{e}todos num\'{e}ricos para encontrar as ra\'{i}zes desta fun\c{c}\~{a}o, incluindo:
 
 \begin{itemize}
     \item M\'{e}todo da Bisse\c{c}\~{a}o
     \item M\'{e}todo de Newton
     \item M\'{e}todo das Secantes
-    \item Varia\c{c}\~{o}es destes m\'{e}todos
 \end{itemize}
 
-Utilizaremos a linguagem de programa\c{c}\~{a}o Python para implementar e testar estes m\'{e}todos, buscando compreender suas caracter\'{i}sticas, efici\^{e}ncia e precis\~{a}o na resolu\c{c}\~{a}o do problema proposto.
+Utilizamos a linguagem de programa\c{c}\~{a}o Python \cite{python}, por meio da interface de desenvolvimento Jupyter Lab \cite{jupyter}, para implementar e testar estes m\'{e}todos, buscando compreender suas caracter\'{i}sticas, efici\^{e}ncia e precis\~{a}o na resolu\c{c}\~{a}o do problema proposto.
 
 
 % -----------------------------------------------------------------------------
 
 
 \section{M\'{e}todos e Procedimentos}
-Nesta se\c{c}\~{a}o, apresentaremos os m\'{e}todos num\'{e}ricos implementados para encontrar as ra\'{i}zes da fun\c{c}\~{a}o polinomial definida na introdu\c{c}\~{a}o. Descreveremos os c\'{o}digos em Python, detalhando as principais subrotinas, suas vari\'{a}veis de entrada e sa\'{i}da, bem como as decis\~{o}es de implementa\c{c}\~{a}o e dificuldades encontradas.
+Nesta se\c{c}\~{a}o, apresentaremos os m\'{e}todos num\'{e}ricos implementados para encontrar as ra\'{i}zes da fun\c{c}\~{a}o \eqref{eq:1}. Descreveremos os c\'{o}digos em Python, detalhando as principais subrotinas, suas vari\'{a}veis de entrada e sa\'{i}da, bem como as decis\~{o}es de implementa\c{c}\~{a}o e dificuldades encontradas.
 
-\subsection{Defini\c{c}\~{a}o da Fun\c{c}\~{a}o e sua Derivada}
+\subsection{Defini\c{c}\~{a}o da Fun\c{c}\~{a}o e da sua Primeira Derivada}
 
 Para todos os m\'{e}todos implementados, utilizamos a seguinte fun\c{c}\~{a}o polinomial e sua derivada, definidas como express\~{o}es lambda em Python:
 
@@ -73,14 +81,14 @@ dfdx = lambda x: 315*x**4 - 1524*x**3 + 1488*x**2 + 408*x - 544
 Onde:
 \begin{itemize}
     \item \texttt{f(x)} representa a fun\c{c}\~{a}o polinomial original
-    \item \texttt{dfdx(x)} representa a derivada da fun\c{c}\~{a}o polinomial
+    \item \texttt{dfdx(x)} representa a  primeira derivada da fun\c{c}\~{a}o
 \end{itemize}
 
 Estas defini\c{c}\~{o}es s\~{a}o utilizadas como par\^{a}metros de entrada nos m\'{e}todos que requerem a fun\c{c}\~{a}o e/ou sua derivada, como o m\'{e}todo de Newton e o m\'{e}todo das Secantes.
 
 \subsection{An\'{a}lise dos Intervalos e Ra\'{i}zes}
 
-Para analisar os intervalos e as ra\'{i}zes da fun\c{c}\~{a}o, utilizamos o seguinte c\'{o}digo em Python com a biblioteca SymPy:
+Para analisar os intervalos e as ra\'{i}zes da fun\c{c}\~{a}o, utilizamos o seguinte c\'{o}digo em Python com a biblioteca SymPy \cite{sympy}:
 
 \begin{lstlisting}[language=Python]
 x = smp.symbols('x')
@@ -256,12 +264,7 @@ Para todos os métodos implementados, usamos um critério de parada baseado na t
 
 % -----------------------------------------------------------------------------
 \section{Resultados e Discuss\~{a}o}
-Nesta se\c{c}\~{a}o, apresentaremos os resultados obtidos com a aplica\c{c}\~{a}o dos m\'{e}todos num\'{e}ricos implementados para encontrar as ra\'{i}zes da fun\c{c}\~{a}o polinomial:
-
-\begin{equation}
-    f(x) = 63x^5 - 381x^4 + 496x^3 + 204x^2 - 544x + 192
-\end{equation}
-\subsection{Resultados dos Métodos Numéricos}
+Nesta se\c{c}\~{a}o, apresentaremos os resultados obtidos com a aplica\c{c}\~{a}o dos m\'{e}todos num\'{e}ricos implementados para encontrar as ra\'{i}zes da fun\c{c}\~{a}o \eqref{eq:1}:
 
 \subsubsection{Método da Bisseção}
 Aplicamos o método da bisseção à função polinomial com diferentes intervalos iniciais:
@@ -447,5 +450,7 @@ Os resultados mais significativos incluem:
 Concluímos que cada método possui suas próprias vantagens e limitações. O método de Newton destaca-se pela rápida convergência, mas é sensível à escolha do ponto inicial. A Bisseção, embora mais lenta, oferece maior confiabilidade. As Secantes apresentam um equilíbrio entre eficiência e flexibilidade.
 
 Este estudo ressalta a importância da compreensão aprofundada dos métodos numéricos e da escolha criteriosa do método mais apropriado para cada problema específico. Além disso, demonstra o valor da análise numérica como ferramenta essencial na resolução de problemas complexos em ciência e engenharia.
+\\ \\
+\printbibliography
 
 \end{document}
