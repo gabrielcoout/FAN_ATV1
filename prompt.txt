@@ -1,0 +1,6 @@
+
+----------------
+Problema
+Seja
+ƒ () = 63 x**5 − 381  x**4 + 496 x**3 + 204x** 2 − 544x  + 192
+e considere os métodos da Bisseção, de Newton, das Secantes, e suas variações. vamos usar python!!
